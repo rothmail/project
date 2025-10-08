@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Upload de Imagens</title>
+</head>
+
+<body>
+    <h1>Upload de Imagens</h1>
+
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="arquivo" name="arquivo" accept="image/*" required>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <h2>Imagens Enviadas</h2>
+    <div id="galeria"></div>
+
+    <script src="../public/script.js"></script>
+</body>
+
+</html>
