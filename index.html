@@ -3,21 +3,23 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload de Imagens</title>
+    <link rel="stylesheet" href="./public/style.css">
 </head>
 
 <body>
     <h1>Upload de Imagens</h1>
 
     <form id="uploadForm" enctype="multipart/form-data">
-        <input type="file" id="arquivo" name="arquivo" accept="image/*" required>
+        <input type="file" id="arquivo" name="arquivo" accept="imagens/*" required>
         <button type="submit">Enviar</button>
     </form>
 
     <h2>Imagens Enviadas</h2>
     <div id="galeria"></div>
 
-    <script src="../public/script.js"></script>
+    <script src="./public/script.js"></script>
 </body>
 
 </html>

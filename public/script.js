@@ -1,29 +1,37 @@
-// Rota de upload
-app.post('/upload', upload.single('arquivo'), (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({ error: 'Nenhum arquivo enviado.' });
+// Envia o arquivo para o servidor
+document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('arquivo', document.getElementById('arquivo').files[0]);
+
+    const resposta = await fetch('http://localhost:3000/upload', {
+        method: 'POST',
+        body: formData
+    });
+
+    if (resposta.ok) {
+        alert('Upload feito com sucesso!');
+        carregarImagens();
+    } else {
+        alert('Erro ao enviar arquivo...');
     }
-
-    const { originalname, filename } = req.file;
-    const sql = 'INSERT INTO imagens (nome_original, nome_arquivo) VALUES (?, ?)';
-
-    db.query(sql, [originalname, filename], (err) => {
-        if (err) {
-            console.error('Erro ao salvar no banco:', err);
-            return res.status(500).json({ error: 'Erro ao salvar no banco' });
-        }
-        res.json({ mensagem: 'Upload realizado com sucesso!' });
-    });
 });
 
-// Rota de listagem
-app.get('http://localhost:3000/index', (req, res) => {
-    const sql = 'SELECT * FROM imagens ORDER BY id DESC';
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Erro ao buscar imagens:', err);
-            return res.status(500).json({ error: 'Erro ao buscar imagens' });
-        }
-        res.json(results);
+// Carrega as imagens do servidor
+async function carregarImagens() {
+    const galeria = document.getElementById('galeria');
+    galeria.innerHTML = '';
+
+    const resposta = await fetch('http://localhost:3000/imagens');
+    const imagens = await resposta.json();
+
+    imagens.forEach(img => {
+        const imgTag = document.createElement('img');
+        imgTag.src = `uploads/${img.nome_arquivo}`;
+        galeria.appendChild(imgTag);
     });
-});
+}
+
+// Carrega as imagens assim que a página abre
+carregarImagens();
